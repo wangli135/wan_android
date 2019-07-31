@@ -35,30 +35,20 @@ class _MyHomePageState extends State<MyHomePage>
 
   int _selectBottomIndex = 0;
   bool _isHotShowPage;
-  String _title='';
 
   @override
   void initState() {
     super.initState();
     _selectBottomIndex = 0;
     _isHotShowPage = false;
-    _title = '玩Android';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: _bottomItems[_selectBottomIndex].title,
         actions: <Widget>[
-          IconButton(
-              icon: Image.asset("images/hot.png"),
-              onPressed: () {
-                setState(() {
-                  _title = 'Hot';
-                  _isHotShowPage = true;
-                });
-              }),
           IconButton(icon: Icon(Icons.search), onPressed: () {})
         ],
       ),
@@ -72,7 +62,6 @@ class _MyHomePageState extends State<MyHomePage>
           setState(() {
             _isHotShowPage = false;
             _selectBottomIndex = index;
-            _title = '玩Android';
           });
         },
       ),
