@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wan_android/home_page.dart';
 import 'package:wan_android/knowledge_system.dart';
 import 'package:wan_android/hot_page.dart';
+import 'package:wan_android/wechat.dart';
+import 'package:wan_android/ali_icon.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,9 +31,14 @@ class _MyHomePageState extends State<MyHomePage>
   List<BottomNavigationBarItem> _bottomItems = [
     BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('首页')),
     BottomNavigationBarItem(icon: Icon(Icons.pages), title: Text('知识体系')),
+    BottomNavigationBarItem(icon: Icon(AliIcons.wechat), title: Text('公众号')),
   ];
 
-  List<Widget> _mainBody = [HomePageWidget(), KnowledgeSystemWidget()];
+  List<Widget> _mainBody = [
+    HomePageWidget(),
+    KnowledgeSystemWidget(),
+    WeChatWidget()
+  ];
 
   int _selectBottomIndex = 0;
   bool _isHotShowPage;

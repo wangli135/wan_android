@@ -5,9 +5,7 @@
 
     <!-- You can insert your own image assets here -->
     <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#FF2196F3"></solid>
-        </shape>
+        <bitmap android:src="@drawable/splash_image"></bitmap>
     </item>
 
 </layer-list>
