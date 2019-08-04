@@ -4,6 +4,9 @@ import 'package:wan_android/knowledge_system.dart';
 import 'package:wan_android/hot_page.dart';
 import 'package:wan_android/wechat.dart';
 import 'package:wan_android/ali_icon.dart';
+import 'package:wan_android/net/wan_android_http_client.dart';
+import 'package:wan_android/model/home_page_model.dart';
+import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -96,32 +99,64 @@ class _LeftDrawerState extends State<LeftDrawer> {
     return Container(
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 240,
+//          SizedBox(
+//            height: 240,
+//            child: Stack(
+//              alignment: AlignmentDirectional.center,
+//              fit: StackFit.expand,
+//              children: <Widget>[
+//                Container(
+//                  color: Colors.blue,
+//                  height: 240,
+//                  child: Column(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[
+//                      FlutterLogo(
+//                        size: 70,
+//                      ),
+//                      Padding(padding: EdgeInsets.all(12)),
+//                      Text(
+//                        '未登录',
+//                        style: TextStyle(color: Colors.white, fontSize: 20),
+//                      )
+//                    ],
+//                  ),
+//                ),
+//                Positioned(
+//                    right: 16,
+//                    bottom: 16,
+//                    child: FlatButton(
+//                        onPressed: () {},
+//                        child: Text(
+//                          '点击登录',
+//                          style: TextStyle(color: Colors.white),
+//                        )))
+//              ],
+//            ),
+//          ),
+          DrawerHeader(
             child: Stack(
               alignment: AlignmentDirectional.center,
               fit: StackFit.expand,
               children: <Widget>[
                 Container(
-                  color: Colors.blue,
-                  height: 240,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       FlutterLogo(
-                        size: 70,
+                        size: 48,
                       ),
-                      Padding(padding: EdgeInsets.all(12)),
+                      Padding(padding: EdgeInsets.all(8)),
                       Text(
                         '未登录',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       )
                     ],
                   ),
                 ),
                 Positioned(
-                    right: 16,
-                    bottom: 16,
+                    right: 1,
+                    bottom: 1,
                     child: FlatButton(
                         onPressed: () {},
                         child: Text(
@@ -130,11 +165,22 @@ class _LeftDrawerState extends State<LeftDrawer> {
                         )))
               ],
             ),
+            decoration: BoxDecoration(color: Colors.blue),
           ),
           ListTile(
             leading: Icon(Icons.favorite),
             title: Text('我喜欢的'),
-            onTap: () {},
+            onTap: () {
+              ApiClient.getInstance()
+                  .getResponse("https://www.wanandroid.com/banner/json")
+                  .then((val) {
+                Banners banners = Banners.fromJson(val);
+
+                print(banners.data[0].url);
+                print(banners.errorCode);
+                print(banners.errorMsg);
+              });
+            },
           ),
           ListTile(
             leading: Icon(Icons.info),
