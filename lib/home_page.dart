@@ -4,6 +4,7 @@ import 'package:banner/banner.dart';
 import 'package:wan_android/model/home_page_model.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android/common/route_table_const.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -159,7 +160,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
         height: 200,
         onBannerClickListener: (index, data) {
           var currentBanner = data as BannerItem;
-          print(currentBanner.url);
+          Navigator.of(context).pushNamed(RouteTableConst.ARTICLE_PAGE,
+              arguments: {
+                'url': currentBanner.url,
+                'title': currentBanner.title
+              });
         },
       ),
     );
@@ -178,7 +183,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
       child: Card(
         child: FlatButton(
             onPressed: () {
-              //TODO 跳转到具体文章页
+              Navigator.of(context).pushNamed(RouteTableConst.ARTICLE_PAGE,
+                  arguments: {
+                    'url': articleItem.link,
+                    'title': articleItem.title
+                  });
             },
             child: Column(
               children: <Widget>[
@@ -209,9 +218,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       Icons.favorite,
                       color: articleItem.collect ? Colors.red : Colors.black45,
                     ),
-                    onPressed: (){
-
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],

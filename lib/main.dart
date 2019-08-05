@@ -6,7 +6,8 @@ import 'package:wan_android/wechat.dart';
 import 'package:wan_android/ali_icon.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:wan_android/model/home_page_model.dart';
-import 'dart:convert';
+import 'package:wan_android/article_page.dart';
+import 'package:wan_android/common/route_table_const.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
+      routes: {
+        RouteTableConst.ARTICLE_PAGE: (context) => ArticlePageWidget(),
+      },
     );
   }
 }
