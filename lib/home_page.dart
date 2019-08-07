@@ -5,6 +5,7 @@ import 'package:wan_android/model/home_page_model.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/common/route_table_const.dart';
+import 'package:wan_android/common/ui/article_list.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -58,7 +59,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
     await apiClient
         .getResponse('https://www.wanandroid.com/article/list/$curPage/json')
         .then((val) {
-      HomeArticles homeArticles = HomeArticles.fromJson(val);
+      ArticleList homeArticles = ArticleList.fromJson(val);
       if (homeArticles.errorCode < 0) {
         errorNum++;
       } else {
@@ -86,7 +87,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
     await apiClient
         .getResponse('https://www.wanandroid.com/article/list/$curPage/json')
         .then((val) {
-      HomeArticles homeArticles = HomeArticles.fromJson(val);
+      ArticleList homeArticles = ArticleList.fromJson(val);
       if (homeArticles.errorCode < 0) {
         wrong = true;
       } else {
@@ -139,7 +140,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
       onLoading: _onLoadig,
       child: CustomScrollView(
         controller: _scrollController,
-        slivers: <Widget>[_createBanner(), _createArticleList()],
+        slivers: <Widget>[
+          _createBanner(),
+          ArticleListWidget(_homePageModel.articles)
+        ],
       ),
     );
   }
@@ -166,63 +170,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 'title': currentBanner.title
               });
         },
-      ),
-    );
-  }
-
-  Widget _createArticleList() {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((ctx, index) {
-      return _creatArticleItem(_homePageModel.articles[index]);
-    }, childCount: _homePageModel.articles.length));
-  }
-
-  Widget _creatArticleItem(ArticleItem articleItem) {
-    return SizedBox(
-      height: 190.0,
-      child: Card(
-        child: FlatButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(RouteTableConst.ARTICLE_PAGE,
-                  arguments: {
-                    'url': articleItem.link,
-                    'title': articleItem.title
-                  });
-            },
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  leading: Text(articleItem.author),
-                  trailing: Text(articleItem.niceDate),
-                ),
-                ListTile(
-                  title: Text(
-                    articleItem.title,
-                    style: TextStyle(color: Colors.black87, fontSize: 20),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                ListTile(
-                  leading: ActionChip(
-                    label: Text(
-                      articleItem.chapterName,
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                    onPressed: () {
-                      //TODO 跳转到chapter name
-                    },
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.favorite,
-                      color: articleItem.collect ? Colors.red : Colors.black45,
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            )),
       ),
     );
   }

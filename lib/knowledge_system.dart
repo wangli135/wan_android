@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wan_android/model/knowledge_system_model.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:wan_android/common/page_state.dart';
+import 'package:wan_android/common/route_table_const.dart';
+import 'package:wan_android/common/route_table_const.dart';
 
 class KnowledgeSystemWidget extends StatefulWidget {
   @override
@@ -86,7 +88,8 @@ class _KnowledgeSystemWidgetState extends State<KnowledgeSystemWidget> {
       child: Card(
           child: FlatButton(
         onPressed: () {
-          //TODO 跳转到具体Category
+          Navigator.of(context).pushNamed(RouteTableConst.KNOWLEDGE_TAB_PAGE,
+              arguments: knowledgeCategory);
         },
         child: ListTile(
           title: Text(
@@ -111,7 +114,8 @@ class _KnowledgeSystemWidgetState extends State<KnowledgeSystemWidget> {
             style: TextStyle(color: Colors.blue),
           ),
           onPressed: () {
-            //TODO 跳转到具体Item页
+            Navigator.of(context).pushNamed(RouteTableConst.KNOWLEDGE_ITEM_PAGE,
+                arguments: knowledgeCategory.children[i]);
           });
     }
     return widgets;

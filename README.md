@@ -8,7 +8,7 @@
 
 - [Flutter版本玩Android客户端(1)——搭建主页面](https://mp.weixin.qq.com/s?__biz=MzU5NDgxMTAyNQ==&mid=2247483868&idx=1&sn=33b76c807a77a8c883f0033ebdf8fe9c&chksm=fe7ac022c90d4934c098f576a66173bd571a7b880562b5532d237e534f4758a8e24b7252db42&token=660556411&lang=zh_CN#rd)  
 - [Flutter版本玩Android(2)——主页面数据获取](https://mp.weixin.qq.com/s?__biz=MzU5NDgxMTAyNQ==&mid=2247483879&idx=1&sn=ea0559cca02041c40226b5084a61af23&chksm=fe7ac019c90d490f7f977c4bfcf6477aea5df043e8bb13cfd691f5a5279336dca4e7f89390c3&token=660556411&lang=zh_CN#rd)
-
+- [Flutter版本玩Android(3)——文章详情页](https://mp.weixin.qq.com/s?__biz=MzU5NDgxMTAyNQ==&mid=2247483884&idx=1&sn=bebc18fbf84741de129fb6eae05ff583&chksm=fe7ac012c90d49043510b1396b8952513cf58310e6e811c6701f5c167d6c0560c3c5e240cd20&token=1713869853&lang=zh_CN#rd)
 
 # 关注我  
 微信公众号：  

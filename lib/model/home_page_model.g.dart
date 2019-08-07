@@ -87,8 +87,8 @@ Map<String, dynamic> _$PageArticlesToJson(PageArticles instance) =>
       'datas': instance.datas,
     };
 
-HomeArticles _$HomeArticlesFromJson(Map<String, dynamic> json) {
-  return HomeArticles(
+ArticleList _$HomeArticlesFromJson(Map<String, dynamic> json) {
+  return ArticleList(
     errorCode: json['errorCode'] as int,
     errorMsg: json['errorMsg'] as String,
     data: json['data'] == null
@@ -97,7 +97,7 @@ HomeArticles _$HomeArticlesFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$HomeArticlesToJson(HomeArticles instance) =>
+Map<String, dynamic> _$HomeArticlesToJson(ArticleList instance) =>
     <String, dynamic>{
       'errorCode': instance.errorCode,
       'errorMsg': instance.errorMsg,

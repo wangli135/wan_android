@@ -6,8 +6,10 @@ import 'package:wan_android/wechat.dart';
 import 'package:wan_android/ali_icon.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:wan_android/model/home_page_model.dart';
-import 'package:wan_android/article_page.dart';
+import 'package:wan_android/article_detail_page.dart';
 import 'package:wan_android/common/route_table_const.dart';
+import 'package:wan_android/knowledge_system_item.dart';
+import 'package:wan_android/knowledge_system_tab.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       routes: {
         RouteTableConst.ARTICLE_PAGE: (context) => ArticlePageWidget(),
+        RouteTableConst.KNOWLEDGE_ITEM_PAGE: (context) =>
+            KnowledgeItemPageWidget(),
+        RouteTableConst.KNOWLEDGE_TAB_PAGE:(context)=> KnowledgeTabWidget(),
       },
     );
   }

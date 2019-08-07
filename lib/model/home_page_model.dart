@@ -85,14 +85,14 @@ class PageArticles {
 }
 
 @JsonSerializable()
-class HomeArticles {
+class ArticleList {
   int errorCode;
   String errorMsg;
   PageArticles data;
 
-  HomeArticles({this.errorCode, this.errorMsg, this.data});
+  ArticleList({this.errorCode, this.errorMsg, this.data});
 
-  factory HomeArticles.fromJson(Map<String, dynamic> json) =>
+  factory ArticleList.fromJson(Map<String, dynamic> json) =>
       _$HomeArticlesFromJson(json);
 
   Map<String, dynamic> toJson() => _$HomeArticlesToJson(this);
