@@ -10,6 +10,7 @@ import 'package:wan_android/article_detail_page.dart';
 import 'package:wan_android/common/route_table_const.dart';
 import 'package:wan_android/knowledge_system_item.dart';
 import 'package:wan_android/knowledge_system_tab.dart';
+import 'package:wan_android/wechat_articles.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,7 +28,9 @@ class MyApp extends StatelessWidget {
         RouteTableConst.ARTICLE_PAGE: (context) => ArticlePageWidget(),
         RouteTableConst.KNOWLEDGE_ITEM_PAGE: (context) =>
             KnowledgeItemPageWidget(),
-        RouteTableConst.KNOWLEDGE_TAB_PAGE:(context)=> KnowledgeTabWidget(),
+        RouteTableConst.KNOWLEDGE_TAB_PAGE: (context) => KnowledgeTabWidget(),
+        RouteTableConst.WECHAT_ARTICLES_PAGE: (context) =>
+            WeChatArticleListWidget()
       },
     );
   }

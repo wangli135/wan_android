@@ -17,8 +17,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
   final Key key = GlobalKey();
 
   static const String BANNER_URL = "https://www.wanandroid.com/banner/json";
-  static const String HOME_PAGE_ARTICLES_URL =
-      "https://www.wanandroid.com/article/list/%d/json";
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: true);
@@ -172,5 +170,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
         },
       ),
     );
+  }
+}
+
+class HomeArticleUrlFactory implements UrlFactory {
+  @override
+  String getUrl(int curPage) {
+    return 'https://www.wanandroid.com/article/list/$curPage/json';
   }
 }

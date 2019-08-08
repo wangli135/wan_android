@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wan_android/common/page_state.dart';
 import 'package:wan_android/model/wechat_model.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
+import 'package:wan_android/common/route_table_const.dart';
 
 class WeChatWidget extends StatefulWidget {
   @override
@@ -83,7 +84,9 @@ class _WeChatWidgetState extends State<WeChatWidget> {
                 style: TextStyle(color: Colors.black87, fontSize: 20),
               ),
               onTap: () {
-                //TODO 微信公众号跳转
+                Navigator.of(context).pushNamed(
+                    RouteTableConst.WECHAT_ARTICLES_PAGE,
+                    arguments: _weChatReponse.data[index]);
               },
             ),
           ),

@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
 class ApiClient {
   static const int TIMEOUT = 5000;
 
-  static ApiClient apiClient = ApiClient._();
+  static ApiClient _apiClient = ApiClient._();
 
   Dio dio;
 
@@ -16,7 +15,7 @@ class ApiClient {
   }
 
   static ApiClient getInstance() {
-    return apiClient;
+    return _apiClient;
   }
 
 
