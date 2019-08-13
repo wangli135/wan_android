@@ -48,6 +48,7 @@ class Banners {
 
 @JsonSerializable()
 class ArticleItem {
+  int id;
   String author;
   String chapterName;
   bool collect;
@@ -57,7 +58,8 @@ class ArticleItem {
   String title;
 
   ArticleItem(
-      {this.author,
+      {this.id,
+      this.author,
       this.chapterName,
       this.collect,
       this.desc,
@@ -93,9 +95,9 @@ class ArticleList {
   ArticleList({this.errorCode, this.errorMsg, this.data});
 
   factory ArticleList.fromJson(Map<String, dynamic> json) =>
-      _$HomeArticlesFromJson(json);
+      _$ArticleListFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HomeArticlesToJson(this);
+  Map<String, dynamic> toJson() => _$ArticleListToJson(this);
 }
 
 /**

@@ -11,11 +11,12 @@ import 'package:wan_android/common/route_table_const.dart';
 import 'package:wan_android/knowledge_system_item.dart';
 import 'package:wan_android/knowledge_system_tab.dart';
 import 'package:wan_android/wechat_articles.dart';
+import 'package:wan_android/login.dart';
+import 'package:wan_android/register.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +31,9 @@ class MyApp extends StatelessWidget {
             KnowledgeItemPageWidget(),
         RouteTableConst.KNOWLEDGE_TAB_PAGE: (context) => KnowledgeTabWidget(),
         RouteTableConst.WECHAT_ARTICLES_PAGE: (context) =>
-            WeChatArticleListWidget()
+            WeChatArticleListWidget(),
+        RouteTableConst.LOGIN_PAGE: (context) => LoginWidget(),
+        RouteTableConst.REGISTER_PAGE: (context) => RegisterWidget()
       },
     );
   }
@@ -111,41 +114,6 @@ class _LeftDrawerState extends State<LeftDrawer> {
     return Container(
       child: Column(
         children: <Widget>[
-//          SizedBox(
-//            height: 240,
-//            child: Stack(
-//              alignment: AlignmentDirectional.center,
-//              fit: StackFit.expand,
-//              children: <Widget>[
-//                Container(
-//                  color: Colors.blue,
-//                  height: 240,
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      FlutterLogo(
-//                        size: 70,
-//                      ),
-//                      Padding(padding: EdgeInsets.all(12)),
-//                      Text(
-//                        '未登录',
-//                        style: TextStyle(color: Colors.white, fontSize: 20),
-//                      )
-//                    ],
-//                  ),
-//                ),
-//                Positioned(
-//                    right: 16,
-//                    bottom: 16,
-//                    child: FlatButton(
-//                        onPressed: () {},
-//                        child: Text(
-//                          '点击登录',
-//                          style: TextStyle(color: Colors.white),
-//                        )))
-//              ],
-//            ),
-//          ),
           DrawerHeader(
             child: Stack(
               alignment: AlignmentDirectional.center,
@@ -170,7 +138,10 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     right: 1,
                     bottom: 1,
                     child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(RouteTableConst.LOGIN_PAGE);
+                        },
                         child: Text(
                           '点击登录',
                           style: TextStyle(color: Colors.white),

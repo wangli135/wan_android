@@ -3,6 +3,9 @@ import 'package:wan_android/model/home_page_model.dart';
 import 'package:wan_android/common/route_table_const.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
+import 'package:wan_android/common/shared_preference.dart';
+import 'package:wan_android/model/user_center.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 abstract class UrlFactory {
   String getUrl(int curPage);
@@ -17,11 +20,24 @@ class ArticleListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList(
         delegate: SliverChildBuilderDelegate((ctx, index) {
-      return _creatArticleItem(_articleList[index], context);
+      return ArticleItemWidget(_articleList[index]);
     }, childCount: _articleList.length));
   }
+}
 
-  Widget _creatArticleItem(ArticleItem articleItem, BuildContext context) {
+class ArticleItemWidget extends StatefulWidget {
+  final ArticleItem _articleItem;
+
+  ArticleItemWidget(this._articleItem);
+
+  @override
+  _ArticleItemWidgetState createState() => _ArticleItemWidgetState();
+}
+
+class _ArticleItemWidgetState extends State<ArticleItemWidget> {
+  @override
+  Widget build(BuildContext context) {
+    ArticleItem articleItem = widget._articleItem;
     return SizedBox(
       height: 190.0,
       child: Card(
@@ -48,21 +64,31 @@ class ArticleListWidget extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: ActionChip(
+                  leading: Chip(
                     label: Text(
                       articleItem.chapterName,
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue, fontSize: 14),
                     ),
-                    onPressed: () {
-                      //TODO 跳转到chapter name
-                    },
                   ),
                   trailing: IconButton(
                     icon: Icon(
                       Icons.favorite,
                       color: articleItem.collect ? Colors.red : Colors.black45,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      KvStores.get(KeyConst.LOGIN).then((login) {
+                        if (login) {
+                          if (articleItem.collect) {
+                            uncollectArticle(articleItem);
+                          } else {
+                            collectArticle(articleItem);
+                          }
+                        } else {
+                          Navigator.of(context)
+                              .pushNamed(RouteTableConst.LOGIN_PAGE);
+                        }
+                      });
+                    },
                   ),
                 ),
               ],
@@ -70,13 +96,51 @@ class ArticleListWidget extends StatelessWidget {
       ),
     );
   }
+
+  /// 收藏
+  collectArticle(ArticleItem articleItem) {
+    ApiClient apiClient = ApiClient.getInstance();
+    apiClient
+        .postRequest(
+            'https://www.wanandroid.com/lg/collect/${articleItem.id}/json',
+            null)
+        .then((val) {
+      BaseModel baseModel = BaseModel.fromJson(val);
+      if (baseModel.errorCode == 0) {
+        setState(() {
+          articleItem.collect = true;
+        });
+        Fluttertoast.showToast(msg: '收藏成功');
+      } else {
+        Fluttertoast.showToast(msg: '收藏失败，${baseModel.errorMsg}');
+      }
+    });
+  }
+
+  /// 取消收藏
+  uncollectArticle(ArticleItem articleItem) {
+    ApiClient apiClient = ApiClient.getInstance();
+    apiClient
+        .postRequest(
+            'https://www.wanandroid.com/lg/uncollect_originId/${articleItem.id}/json',
+            null)
+        .then((val) {
+      BaseModel baseModel = BaseModel.fromJson(val);
+      if (baseModel.errorCode == 0) {
+        setState(() {
+          articleItem.collect = false;
+        });
+        Fluttertoast.showToast(msg: '取消收藏成功');
+      } else {
+        Fluttertoast.showToast(msg: '取消收藏失败，${baseModel.errorMsg}');
+      }
+    });
+  }
 }
 
-/**
- * 带有下拉刷新、上拉加载的文章列表widget
- */
+/// 带有下拉刷新、上拉加载的文章列表widget
 class PullToRefreshArticleListWidget extends StatefulWidget {
-  UrlFactory _urlFactory;
+  final UrlFactory _urlFactory;
 
   PullToRefreshArticleListWidget(this._urlFactory);
 

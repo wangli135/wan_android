@@ -57,6 +57,7 @@ ArticleItem _$ArticleItemFromJson(Map<String, dynamic> json) {
     link: json['link'] as String,
     niceDate: json['niceDate'] as String,
     title: json['title'] as String,
+    id: json['id'] as int,
   );
 }
 
@@ -69,6 +70,7 @@ Map<String, dynamic> _$ArticleItemToJson(ArticleItem instance) =>
       'link': instance.link,
       'niceDate': instance.niceDate,
       'title': instance.title,
+      'id':instance.id,
     };
 
 PageArticles _$PageArticlesFromJson(Map<String, dynamic> json) {
@@ -87,7 +89,7 @@ Map<String, dynamic> _$PageArticlesToJson(PageArticles instance) =>
       'datas': instance.datas,
     };
 
-ArticleList _$HomeArticlesFromJson(Map<String, dynamic> json) {
+ArticleList _$ArticleListFromJson(Map<String, dynamic> json) {
   return ArticleList(
     errorCode: json['errorCode'] as int,
     errorMsg: json['errorMsg'] as String,
@@ -97,7 +99,7 @@ ArticleList _$HomeArticlesFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$HomeArticlesToJson(ArticleList instance) =>
+Map<String, dynamic> _$ArticleListToJson(ArticleList instance) =>
     <String, dynamic>{
       'errorCode': instance.errorCode,
       'errorMsg': instance.errorMsg,

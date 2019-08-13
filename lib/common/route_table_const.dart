@@ -6,4 +6,8 @@ class RouteTableConst {
   static const String KNOWLEDGE_TAB_PAGE = "knowledge_tab_page";
 
   static const String WECHAT_ARTICLES_PAGE = "wechat_articles_page";
+
+  static const String LOGIN_PAGE = "login_page";
+
+  static const String REGISTER_PAGE = "register_page";
 }
