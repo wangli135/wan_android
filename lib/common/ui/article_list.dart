@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android/model/home_page_model.dart';
 import 'package:wan_android/common/route_table_const.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wan_android/model/login_state.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:wan_android/common/shared_preference.dart';
 import 'package:wan_android/model/user_center.dart';
@@ -38,6 +40,7 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
   @override
   Widget build(BuildContext context) {
     ArticleItem articleItem = widget._articleItem;
+    LoginState loginState = Provider.of<LoginState>(context);
     return SizedBox(
       height: 190.0,
       child: Card(
@@ -73,11 +76,13 @@ class _ArticleItemWidgetState extends State<ArticleItemWidget> {
                   trailing: IconButton(
                     icon: Icon(
                       Icons.favorite,
-                      color: articleItem.collect ? Colors.red : Colors.black45,
+                      color: loginState.isLogin() && articleItem.collect
+                          ? Colors.red
+                          : Colors.black45,
                     ),
                     onPressed: () {
                       KvStores.get(KeyConst.LOGIN).then((login) {
-                        if (login) {
+                        if (login!=null&&login) {
                           if (articleItem.collect) {
                             uncollectArticle(articleItem);
                           } else {

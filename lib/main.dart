@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android/home_page.dart';
 import 'package:wan_android/knowledge_system.dart';
 import 'package:wan_android/hot_page.dart';
@@ -14,7 +16,29 @@ import 'package:wan_android/wechat_articles.dart';
 import 'package:wan_android/login.dart';
 import 'package:wan_android/register.dart';
 
-void main() => runApp(MyApp());
+import 'model/login_state.dart';
+import 'common/shared_preference.dart';
+import 'model/user_center.dart';
+
+void main() {
+  final _loginState = LoginState();
+
+  KvStores.get(KeyConst.LOGIN).then((isLogin) {
+    if (isLogin != null && isLogin) {
+      KvStores.get(KeyConst.USER_NAME).then((name) {
+        _loginState.login(name);
+      });
+    } else {
+      _loginState.logout();
+    }
+    runApp(Provider<LoginState>.value(
+      child: ChangeNotifierProvider.value(
+        value: _loginState,
+        child: MyApp(),
+      ),
+    ));
+  });
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -111,6 +135,8 @@ class LeftDrawer extends StatefulWidget {
 class _LeftDrawerState extends State<LeftDrawer> {
   @override
   Widget build(BuildContext context) {
+    final _loginState = Provider.of<LoginState>(context);
+
     return Container(
       child: Column(
         children: <Widget>[
@@ -128,7 +154,9 @@ class _LeftDrawerState extends State<LeftDrawer> {
                       ),
                       Padding(padding: EdgeInsets.all(8)),
                       Text(
-                        '未登录',
+                        _loginState.isLogin()
+                            ? _loginState.getUserName()
+                            : '未登录',
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       )
                     ],
@@ -139,11 +167,15 @@ class _LeftDrawerState extends State<LeftDrawer> {
                     bottom: 1,
                     child: FlatButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(RouteTableConst.LOGIN_PAGE);
+                          if (_loginState.isLogin()) {
+                            logout(_loginState);
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed(RouteTableConst.LOGIN_PAGE);
+                          }
                         },
                         child: Text(
-                          '点击登录',
+                          _loginState.isLogin() ? '退出登录' : '点击登录',
                           style: TextStyle(color: Colors.white),
                         )))
               ],
@@ -174,4 +206,24 @@ class _LeftDrawerState extends State<LeftDrawer> {
       ),
     );
   }
+}
+
+/**
+ * 登出
+ */
+void logout(LoginState loginState) {
+  ApiClient apiClient = ApiClient.getInstance();
+  apiClient
+      .getResponse("https://www.wanandroid.com/user/logout/json")
+      .then((val) {
+    BaseModel baseModel = BaseModel.fromJson(val);
+    if (baseModel.errorCode == 0) {
+      Fluttertoast.showToast(msg: '退出成功');
+      KvStores.save(KeyConst.LOGIN, false);
+      KvStores.save(KeyConst.USER_NAME, "");
+      loginState.logout();
+    } else {
+      Fluttertoast.showToast(msg: '退出失败,${baseModel.errorMsg}');
+    }
+  });
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wan_android/common/route_table_const.dart';
 import 'package:wan_android/net/wan_android_http_client.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wan_android/model/user_center.dart';
 import 'package:wan_android/common/shared_preference.dart';
+
+import 'model/login_state.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -17,6 +20,9 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    final _loginState=Provider.of<LoginState>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('登录'),
@@ -72,7 +78,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       onPressed: () {
                         if ((_formKey.currentState as FormState).validate()) {
                           login(_usernameController.text,
-                              _passwordController.text);
+                              _passwordController.text,_loginState);
                         }
                       },
                     ),
@@ -88,7 +94,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  void login(String username, String password) {
+  void login(String username, String password,LoginState loginState) {
     ApiClient apiClient = ApiClient.getInstance();
     Map<String, dynamic> queryParameters = {
       'username': username,
@@ -101,6 +107,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       if (registerModel.errorCode < 0) {
         Fluttertoast.showToast(msg: registerModel.errorMsg);
       } else {
+        loginState.login(username);
         Fluttertoast.showToast(msg: '登录成功');
         KvStores.save(KeyConst.USER_NAME, username);
         KvStores.save(KeyConst.PASSWORD, password);
